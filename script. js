@@ -1,0 +1,73 @@
+
+let cart = [];
+let total = 0;
+
+function addToCart(name, price) {
+
+    cart.push({
+        name: name,
+        price: price
+    });
+
+    total += price;
+
+    updateCart();
+
+    alert(name + " added to cart!");
+}
+
+function updateCart() {
+
+    document.getElementById("count").innerText =
+        cart.length;
+
+    document.getElementById("total").innerText =
+        total;
+
+    let output = "";
+
+    cart.forEach((item, index) => {
+
+        output += `
+            <p>
+                ${item.name} - ₹${item.price}
+                <button onclick="removeItem(${index})">
+                    Remove
+                </button>
+            </p>
+        `;
+
+    });
+
+    document.getElementById("cartItems").innerHTML =
+        output || "Your cart is empty.";
+}
+
+function removeItem(index) {
+
+    total -= cart[index].price;
+
+    cart.splice(index, 1);
+
+    updateCart();
+}
+
+function showCart() {
+
+    document.querySelector(".cart-section")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+function checkout() {
+
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+    } else {
+        alert("Order placed successfully!");
+        cart = [];
+        total = 0;
+        updateCart();
+    }
+}
